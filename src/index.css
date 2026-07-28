@@ -381,4 +381,35 @@
 
   .animate-float-up { animation: float-up 0.25s ease-out forwards; }
   .animate-logo-fade { animation: logo-fade 350ms ease-out forwards; }
+
+  .tooltap-brand {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    text-decoration: none;
+  }
+
+  .tooltap-navbar-logo {
+    display: block;
+    width: auto;
+    height: 44px;
+    max-width: 190px;
+    object-fit: contain;
+    object-position: left center;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 768px) {
+    .tooltap-navbar-logo {
+      height: 36px;
+      max-width: 155px;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .tooltap-navbar-logo {
+      height: 32px;
+      max-width: 135px;
+    }
+  }
 }
