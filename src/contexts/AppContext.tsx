@@ -1,0 +1,112 @@
+import React, { createContext, useContext, useState, useMemo, useEffect } from 'react';
+import Fuse from 'fuse.js';
+import { toast } from 'sonner';
+import type { Tool, FilterAccess, SortOption } from '@/types/tool';
+import toolsData from '@/data/tools.json';
+import { createSearchIndex } from '@/lib/search';
+import { useBookmarks, useRecentlyViewed, useCompare, useRecentSearches } from '@/hooks/useBookmarks';
+
+const allTools = toolsData as Tool[];
+
+interface AppContextValue {
+  tools: Tool[];
+  fuseIndex: Fuse<Tool>;
+  studentMode: boolean;
+  setStudentMode: (v: boolean) => void;
+  accessFilter: FilterAccess;
+  setAccessFilter: (v: FilterAccess) => void;
+  categoryFilter: string;
+  setCategoryFilter: (v: string) => void;
+  sortOption: SortOption;
+  setSortOption: (v: SortOption) => void;
+  bookmarks: Tool[];
+  isBookmarked: (id: number) => boolean;
+  toggleBookmark: (tool: Tool) => void;
+  clearBookmarks: () => void;
+  recentlyViewed: Tool[];
+  addToHistory: (tool: Tool) => void;
+  clearHistory: () => void;
+  compareList: Tool[];
+  isInCompare: (id: number) => boolean;
+  toggleCompare: (tool: Tool) => void;
+  removeFromCompare: (id: number) => void;
+  clearCompare: () => void;
+  recentSearches: string[];
+  addSearch: (q: string) => void;
+  removeSearch: (q: string) => void;
+  clearSearches: () => void;
+}
+
+const AppContext = createContext<AppContextValue | null>(null);
+
+export function AppProvider({ children }: { children: React.ReactNode }) {
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.add('dark');
+    root.classList.remove('light');
+    root.setAttribute('data-theme', 'dark');
+    root.style.colorScheme = 'dark';
+    try {
+      localStorage.removeItem('tooltap-theme');
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  const [studentMode, setStudentModeRaw] = useState(() => {
+    try {
+      return localStorage.getItem('tooltap-student-mode') === 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  const setStudentMode = (v: boolean) => {
+    setStudentModeRaw(v);
+    try {
+      localStorage.setItem('tooltap-student-mode', String(v));
+    } catch {
+      // Silently fail
+    }
+    if (v) {
+      toast.success('Student Mode enabled.', { duration: 3000, id: 'student-mode' });
+    } else {
+      toast.info('Student Mode disabled.', { duration: 3000, id: 'student-mode' });
+    }
+  };
+  const [accessFilter, setAccessFilter] = useState<FilterAccess>('all');
+  const [categoryFilter, setCategoryFilter] = useState('all');
+  const [sortOption, setSortOption] = useState<SortOption>('default');
+
+  const fuseIndex = useMemo(() => createSearchIndex(allTools), []);
+
+  const bookmarkHook = useBookmarks();
+  const historyHook = useRecentlyViewed();
+  const compareHook = useCompare();
+  const searchHook = useRecentSearches();
+
+  const value: AppContextValue = {
+    tools: allTools,
+    fuseIndex,
+    studentMode,
+    setStudentMode,
+    accessFilter,
+    setAccessFilter,
+    categoryFilter,
+    setCategoryFilter,
+    sortOption,
+    setSortOption,
+    ...bookmarkHook,
+    ...historyHook,
+    ...compareHook,
+    ...searchHook,
+  };
+
+  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
+}
+
+export function useApp() {
+  const ctx = useContext(AppContext);
+  if (!ctx) throw new Error('useApp must be used within AppProvider');
+  return ctx;
+}
