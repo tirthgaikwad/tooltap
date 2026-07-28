@@ -18,12 +18,12 @@ const platformLinks = [
   { label: 'Categories', path: '/categories' },
   { label: 'Collections', path: '/collections' },
   { label: 'Compare', path: '/compare' },
-  { label: 'Saved Tools', path: '/bookmarks' },
+  { label: 'Saved Tools', path: '/saved-tools' },
 ];
 
 const resourceLinks = [
   { label: 'How to Use', path: '/how-to-use' },
-  { label: 'Documentation', path: '/docs' },
+  { label: 'Documentation', path: '/documentation' },
   { label: 'About ToolTap', path: '/about' },
 ];
 
@@ -98,22 +98,20 @@ export default function Footer() {
                 </li>
               ))}
               <li>
-                <button
-                  type="button"
-                  onClick={() => toast.info('Privacy Policy: ToolTap stores bookmarks and preferences locally in your browser. No personal tracking or telemetry.', { duration: 5000 })}
-                  className="text-sm text-med-emphasis hover:text-high-emphasis transition-colors text-left"
+                <Link
+                  to="/privacy"
+                  className="text-sm text-med-emphasis hover:text-high-emphasis hover:text-primary transition-colors inline-block"
                 >
                   Privacy Policy
-                </button>
+                </Link>
               </li>
               <li>
-                <button
-                  type="button"
-                  onClick={() => toast.info('Terms of Service: ToolTap provides free educational tool discovery. Official tool details and pricing are subject to provider terms.', { duration: 5000 })}
-                  className="text-sm text-med-emphasis hover:text-high-emphasis transition-colors text-left"
+                <Link
+                  to="/terms"
+                  className="text-sm text-med-emphasis hover:text-high-emphasis hover:text-primary transition-colors inline-block"
                 >
                   Terms of Service
-                </button>
+                </Link>
               </li>
               <li>
                 <a

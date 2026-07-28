@@ -91,7 +91,7 @@ function ToolCard({ tool, showBestFree, rank, animated = true, animationDelay = 
   };
 
   const handleShare = async () => {
-    const url = `${window.location.origin}/tool/${toolSlug}`;
+    const url = `${window.location.origin}/tools/${toolSlug}`;
     try {
       await navigator.clipboard.writeText(url);
       toast.success('Link copied to clipboard');
@@ -162,7 +162,7 @@ function ToolCard({ tool, showBestFree, rank, animated = true, animationDelay = 
             <div className="flex-1 min-w-0">
               <h3 className="font-heading font-bold text-base text-high-emphasis truncate leading-snug">
                 <Link
-                  to={`/tool/${toolSlug}`}
+                  to={`/tools/${toolSlug}`}
                   onClick={() => addToHistory(tool)}
                   className="hover:text-primary transition-colors"
                 >
@@ -212,7 +212,7 @@ function ToolCard({ tool, showBestFree, rank, animated = true, animationDelay = 
                 size="sm"
                 className="h-11 min-h-[44px] text-xs font-semibold border-white/10 hover:bg-white/[0.06] text-high-emphasis rounded-xl gap-1 w-full active:scale-95"
               >
-                <Link to={`/tool/${toolSlug}`} onClick={() => addToHistory(tool)}>
+                <Link to={`/tools/${toolSlug}`} onClick={() => addToHistory(tool)}>
                   Details <ArrowRight className="w-3 h-3" />
                 </Link>
               </Button>

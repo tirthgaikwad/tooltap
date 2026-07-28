@@ -58,7 +58,7 @@ export default function QuickViewModal({ tool, isOpen, onClose }: QuickViewModal
   const toolSlug = tool.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
   const handleShare = async () => {
-    const url = `${window.location.origin}/tool/${toolSlug}`;
+    const url = `${window.location.origin}/tools/${toolSlug}`;
     try {
       await navigator.clipboard.writeText(url);
       toast.success('Tool link copied to clipboard');
@@ -228,7 +228,7 @@ export default function QuickViewModal({ tool, isOpen, onClose }: QuickViewModal
 
               <div className="flex items-center gap-2 ml-auto flex-wrap">
                 <Link
-                  to={`/tool/${toolSlug}`}
+                  to={`/tools/${toolSlug}`}
                   onClick={() => {
                     addToHistory(tool);
                     onClose();

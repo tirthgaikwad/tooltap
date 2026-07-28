@@ -302,7 +302,7 @@ export default function HomePage() {
                   size="lg"
                   className="h-12 px-6 border-white/15 hover:bg-white/10 text-foreground font-semibold rounded-xl gap-2 touch-manipulation text-sm active:scale-95"
                 >
-                  <Link to={`/tool/${featuredTool.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}>
+                  <Link to={`/tools/${featuredTool.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}>
                     Explore Details <ArrowRight className="w-4 h-4" />
                   </Link>
                 </Button>

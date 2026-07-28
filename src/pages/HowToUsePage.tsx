@@ -87,7 +87,7 @@ const STEPS = [
       'Your saved list persists automatically between sessions',
     ],
     actionText: 'View Saved Tools',
-    actionLink: '/bookmarks',
+    actionLink: '/saved-tools',
   },
 ];
 

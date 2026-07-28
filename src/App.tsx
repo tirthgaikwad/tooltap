@@ -17,7 +17,6 @@ const App: React.FC = () => {
             {routes.map((route, index) => (
               <Route key={index} path={route.path} element={route.element} />
             ))}
-            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </div>
         <Toaster theme="dark" position="bottom-right" richColors />

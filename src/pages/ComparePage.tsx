@@ -426,7 +426,7 @@ export default function ComparePage() {
                         size="sm"
                         className="h-11 text-xs rounded-xl hover:bg-white/5 text-muted-foreground hover:text-foreground gap-1 w-full border border-white/10"
                       >
-                        <Link to={`/tool/${toolSlug}`}>
+                        <Link to={`/tools/${toolSlug}`}>
                           Details <ArrowRight className="w-3.5 h-3.5" />
                         </Link>
                       </Button>

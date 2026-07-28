@@ -21,9 +21,9 @@ const navLinks = [
   { label: 'Categories', path: '/categories', icon: Grid3X3 },
   { label: 'Collections', path: '/collections', icon: Layers },
   { label: 'Compare', path: '/compare', icon: GitCompare },
-  { label: 'Saved Tools', path: '/bookmarks', icon: Bookmark },
+  { label: 'Saved Tools', path: '/saved-tools', icon: Bookmark },
   { label: 'How to Use', path: '/how-to-use', icon: HelpCircle },
-  { label: 'Documentation', path: '/docs', icon: BookOpen },
+  { label: 'Documentation', path: '/documentation', icon: BookOpen },
 ];
 
 export default function Navbar() {
@@ -73,7 +73,7 @@ export default function Navbar() {
                       {compareList.length}
                     </span>
                   )}
-                  {path === '/bookmarks' && bookmarks.length > 0 && (
+                  {path === '/saved-tools' && bookmarks.length > 0 && (
                     <span className="ml-0.5 px-1.5 py-0.2 rounded-full bg-amber-500 text-black text-[10px] font-bold">
                       {bookmarks.length > 9 ? '9+' : bookmarks.length}
                     </span>
@@ -144,7 +144,7 @@ export default function Navbar() {
                               {compareList.length}
                             </Badge>
                           )}
-                          {path === '/bookmarks' && bookmarks.length > 0 && (
+                          {path === '/saved-tools' && bookmarks.length > 0 && (
                             <Badge className="ml-auto bg-amber-500 text-black text-[10px] px-2 py-0.5">
                               {bookmarks.length}
                             </Badge>
