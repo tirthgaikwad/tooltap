@@ -22,6 +22,7 @@ export default function CategoriesPage() {
       <PageMeta
         title="AI Tool Categories | ToolTap"
         description="Browse 25 domain categories of AI tools ranging from coding and writing to image generation and productivity."
+        canonicalPath="/categories"
       />
       <div className="py-6 sm:py-8 max-w-7xl mx-auto px-4 sm:px-6">
         {/* Header */}

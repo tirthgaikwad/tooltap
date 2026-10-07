@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /api/
+Disallow: /saved-tools
+Disallow: /saved
+Disallow: /bookmarks
+
+Sitemap: https://tooltap.vercel.app/sitemap.xml

@@ -22,17 +22,23 @@ export default function Hero3DCanvas() {
     camera.position.set(0, 0, 10);
 
     // 3. Renderer setup
-    const renderer = new THREE.WebGLRenderer({
-      alpha: true,
-      antialias: !isMobile, // Disable MSAA on mobile for max GPU speed
-      powerPreference: 'high-performance',
-      precision: isMobile ? 'mediump' : 'highp',
-    });
-    renderer.setSize(width, height);
-    // Cap pixel ratio to 1.5 on desktop, 1.0 on mobile to avoid high DPI shading bottlenecks
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.0 : 1.5));
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
-    container.appendChild(renderer.domElement);
+    let renderer: THREE.WebGLRenderer | null = null;
+    try {
+      renderer = new THREE.WebGLRenderer({
+        alpha: true,
+        antialias: !isMobile, // Disable MSAA on mobile for max GPU speed
+        powerPreference: 'high-performance',
+        precision: isMobile ? 'mediump' : 'highp',
+      });
+      renderer.setSize(width, height);
+      // Cap pixel ratio to 1.5 on desktop, 1.0 on mobile to avoid high DPI shading bottlenecks
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.0 : 1.5));
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      container.appendChild(renderer.domElement);
+    } catch (e) {
+      console.warn('WebGL not supported or context creation failed in Hero3DCanvas:', e);
+      return;
+    }
 
     // 4. Lights
     const ambientLight = new THREE.AmbientLight(0x121216, 2.2);
@@ -186,7 +192,7 @@ export default function Hero3DCanvas() {
 
     // Resize Handler
     const handleResize = () => {
-      if (!container) return;
+      if (!container || !renderer) return;
       const newW = container.clientWidth || window.innerWidth;
       const newH = container.clientHeight || 600;
       camera.aspect = newW / newH;
@@ -203,7 +209,7 @@ export default function Hero3DCanvas() {
     const clock = new THREE.Clock();
 
     const animate = () => {
-      if (!isVisible) return;
+      if (!isVisible || !renderer) return;
 
       if (prefersReducedMotion) {
         renderer.render(scene, camera);
@@ -278,19 +284,24 @@ export default function Hero3DCanvas() {
       window.removeEventListener('resize', handleResize);
 
       // Dispose 3D geometries and materials
-      torusKnotGeo.dispose();
-      torusWireMaterial.dispose();
-      torusInnerMaterial.dispose();
-      shapeGeo1.dispose();
-      shapeGeo2.dispose();
-      amberMat.dispose();
-      orangeMat.dispose();
-      particleGeo.dispose();
-      particleMat.dispose();
-      renderer.dispose();
-
-      if (container.contains(renderer.domElement)) {
-        container.removeChild(renderer.domElement);
+      try {
+        torusKnotGeo.dispose();
+        torusWireMaterial.dispose();
+        torusInnerMaterial.dispose();
+        shapeGeo1.dispose();
+        shapeGeo2.dispose();
+        amberMat.dispose();
+        orangeMat.dispose();
+        particleGeo.dispose();
+        particleMat.dispose();
+        if (renderer) {
+          renderer.dispose();
+          if (container && renderer.domElement && container.contains(renderer.domElement)) {
+            container.removeChild(renderer.domElement);
+          }
+        }
+      } catch (err) {
+        // ignore disposal errors
       }
     };
   }, []);

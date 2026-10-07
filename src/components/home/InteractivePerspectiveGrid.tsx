@@ -10,7 +10,7 @@ interface InteractivePerspectiveGridProps {
 
 export function InteractivePerspectiveGrid({
   className = "absolute inset-0 z-0 opacity-40 dark:opacity-35",
-  gridSize = 40,
+  gridSize = 20,
   fadeRadius = 80,
 }: InteractivePerspectiveGridProps) {
   const containerRef = useRef<HTMLDivElement>(null);

@@ -11,6 +11,7 @@ import QuickViewModal from './QuickViewModal';
 import type { Tool } from '@/types/tool';
 import { useApp } from '@/contexts/AppContext';
 import { getFreePlanDetails } from '@/lib/freePlanUtils';
+import { getToolSlug } from '@/lib/slugs';
 import { cn } from '@/lib/utils';
 
 interface Props {
@@ -50,7 +51,7 @@ function ToolCard({ tool, showBestFree, rank, animated = true, animationDelay = 
   const inCompare = isInCompare(tool.id);
   const compareDisabled = !inCompare && compareList.length >= 3;
 
-  const toolSlug = tool.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  const toolSlug = getToolSlug(tool.name);
   const planDetails = getFreePlanDetails(tool);
   const itemIndex = index ?? (animationDelay ? Math.round(animationDelay / 50) : 0);
 

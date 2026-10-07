@@ -14,7 +14,7 @@ interface PerspectiveGridProps {
 
 export function PerspectiveGrid({
     className,
-    gridSize = 40,
+    gridSize = 20,
     showOverlay = true,
     fadeRadius = 80,
 }: PerspectiveGridProps) {

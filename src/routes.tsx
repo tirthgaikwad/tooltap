@@ -43,20 +43,30 @@ function LegacyCategoryRedirect() {
   return <Navigate to={`/categories/${categorySlug}`} replace />;
 }
 
+function LegacyCollectionRedirect() {
+  const { collectionSlug = '' } = useParams();
+  return <Navigate to={`/collections/${collectionSlug}`} replace />;
+}
+
 export const routes: RouteConfig[] = [
   { name: 'Home', path: '/', element: wrap(<HomePage />), public: true },
   { name: 'Search', path: '/search', element: wrap(<SearchPage />), public: true },
   { name: 'Categories', path: '/categories', element: wrap(<CategoriesPage />), public: true },
+  { name: 'CategoryCanonical', path: '/category/:categorySlug', element: wrap(<CategoryDetailPage />), public: true },
   { name: 'Category', path: '/categories/:slug', element: wrap(<CategoryDetailPage />), public: true },
   { name: 'CategoryAlt', path: '/categories/detail/:categorySlug', element: wrap(<CategoryDetailPage />), public: true },
   { name: 'Collections', path: '/collections', element: wrap(<CollectionsPage />), public: true },
+  { name: 'CollectionCanonical', path: '/collection/:collectionSlug', element: wrap(<CollectionDetailPage />), public: true },
   { name: 'CollectionDetail', path: '/collections/:collectionSlug', element: wrap(<CollectionDetailPage />), public: true },
+  { name: 'CollectionDetailAlt', path: '/collections/detail/:collectionSlug', element: wrap(<CollectionDetailPage />), public: true },
   { name: 'HowToUse', path: '/how-to-use', element: wrap(<HowToUsePage />), public: true },
   { name: 'Documentation', path: '/documentation', element: wrap(<DocumentationPage />), public: true },
   { name: 'Compare', path: '/compare', element: wrap(<ComparePage />), public: true },
   { name: 'SavedTools', path: '/saved-tools', element: wrap(<BookmarksPage />), public: true },
   { name: 'About', path: '/about', element: wrap(<AboutPage />), public: true },
+  { name: 'ToolCanonical', path: '/tool/:toolSlug', element: wrap(<ToolDetailPage />), public: true },
   { name: 'ToolDetail', path: '/tools/:toolSlug', element: wrap(<ToolDetailPage />), public: true },
+  { name: 'ToolDetailAlt', path: '/tools/detail/:toolSlug', element: wrap(<ToolDetailPage />), public: true },
   { name: 'Privacy', path: '/privacy', element: wrap(<PrivacyPage />), public: true },
   { name: 'Terms', path: '/terms', element: wrap(<TermsPage />), public: true },
 
@@ -66,8 +76,6 @@ export const routes: RouteConfig[] = [
   { name: 'LegacyDocs', path: '/docs', element: <Navigate to="/documentation" replace />, public: true },
   { name: 'LegacyPrivacy', path: '/privacy-policy', element: <Navigate to="/privacy" replace />, public: true },
   { name: 'LegacyTerms', path: '/terms-of-service', element: <Navigate to="/terms" replace />, public: true },
-  { name: 'LegacyTool', path: '/tool/:toolSlug', element: wrap(<LegacyToolRedirect />), public: true },
-  { name: 'LegacyCategory', path: '/category/:categorySlug', element: wrap(<LegacyCategoryRedirect />), public: true },
   { name: 'NotFound', path: '*', element: wrap(<NotFoundPage />), public: true },
 ];
 

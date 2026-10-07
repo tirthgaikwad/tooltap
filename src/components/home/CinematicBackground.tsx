@@ -49,58 +49,62 @@ export default function CinematicBackground() {
     const render = () => {
       if (!isVisible) return;
 
-      ctx.clearRect(0, 0, width, height);
+      try {
+        ctx.clearRect(0, 0, width, height);
 
-      // Warm radial ambient glow gradient at mouse / center
-      const gradient = ctx.createRadialGradient(
-        mouseX,
-        mouseY,
-        0,
-        width / 2,
-        height / 2,
-        Math.max(width, height) * 0.8
-      );
-      gradient.addColorStop(0, 'rgba(224, 90, 71, 0.10)');
-      gradient.addColorStop(0.5, 'rgba(242, 153, 74, 0.04)');
-      gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        // Warm radial ambient glow gradient at mouse / center
+        const gradient = ctx.createRadialGradient(
+          mouseX,
+          mouseY,
+          0,
+          width / 2,
+          height / 2,
+          Math.max(width, height) * 0.8
+        );
+        gradient.addColorStop(0, 'rgba(224, 90, 71, 0.10)');
+        gradient.addColorStop(0.5, 'rgba(242, 153, 74, 0.04)');
+        gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
 
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, width, height);
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, width, height);
 
-      // Draw particle nodes and connecting net lines without heavy shadowBlur loops
-      for (let i = 0; i < particles.length; i++) {
-        const p = particles[i];
-        p.x += p.vx;
-        p.y += p.vy;
+        // Draw particle nodes and connecting net lines without heavy shadowBlur loops
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
 
-        if (p.x < 0 || p.x > width) p.vx *= -1;
-        if (p.y < 0 || p.y > height) p.vy *= -1;
+          if (p.x < 0 || p.x > width) p.vx *= -1;
+          if (p.y < 0 || p.y > height) p.vy *= -1;
 
-        // Draw particle
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = p.color + p.alpha + ')';
-        ctx.fill();
+          // Draw particle
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = p.color + p.alpha + ')';
+          ctx.fill();
 
-        // Connect nearby particles
-        for (let j = i + 1; j < particles.length; j++) {
-          const p2 = particles[j];
-          const dx = p.x - p2.x;
-          const dy = p.y - p2.y;
-          const distSq = dx * dx + dy * dy;
+          // Connect nearby particles
+          for (let j = i + 1; j < particles.length; j++) {
+            const p2 = particles[j];
+            const dx = p.x - p2.x;
+            const dy = p.y - p2.y;
+            const distSq = dx * dx + dy * dy;
 
-          // 130 * 130 = 16900 (Avoid Math.sqrt in loop)
-          if (distSq < 16900) {
-            const dist = Math.sqrt(distSq);
-            const lineAlpha = (1 - dist / 130) * 0.18;
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = `rgba(242, 153, 74, ${lineAlpha})`;
-            ctx.lineWidth = 0.8;
-            ctx.stroke();
+            // 130 * 130 = 16900 (Avoid Math.sqrt in loop)
+            if (distSq < 16900) {
+              const dist = Math.sqrt(distSq);
+              const lineAlpha = (1 - dist / 130) * 0.18;
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.strokeStyle = `rgba(242, 153, 74, ${lineAlpha})`;
+              ctx.lineWidth = 0.8;
+              ctx.stroke();
+            }
           }
         }
+      } catch (e) {
+        // Safe catch for canvas context drawing errors
       }
 
       animationFrameId = requestAnimationFrame(render);

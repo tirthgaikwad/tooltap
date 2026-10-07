@@ -121,6 +121,7 @@ export default function DocumentationPage() {
       <PageMeta
         title="ToolTap Documentation | User & Developer Guide"
         description="Complete user guide, search documentation, comparison specs, and local privacy details for ToolTap."
+        canonicalPath="/documentation"
       />
       <div className="py-6 sm:py-8 max-w-6xl mx-auto px-4 sm:px-6">
         {/* Header */}

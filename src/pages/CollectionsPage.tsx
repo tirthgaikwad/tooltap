@@ -56,6 +56,7 @@ export default function CollectionsPage() {
       <PageMeta
         title="Curated AI Tool Collections | ToolTap"
         description="Explore handpicked AI tool bundles for students, developers, creators, and productivity workflows."
+        canonicalPath="/collections"
       />
       <div className="py-6 sm:py-8 max-w-7xl mx-auto px-4 sm:px-6">
         {/* Header */}
@@ -80,6 +81,7 @@ export default function CollectionsPage() {
                 title={col.title}
                 subtitle={col.subtitle}
                 tools={col.tools}
+                viewAllHref={`/collections/${col.id}`}
                 showBestFree
                 cols={3}
               />

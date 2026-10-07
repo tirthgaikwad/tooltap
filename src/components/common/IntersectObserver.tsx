@@ -10,7 +10,11 @@ const IntersectObserver = () => {
     // to pick up new elements on the page.
     // We use a small timeout to ensure the DOM has updated.
     const timer = setTimeout(() => {
+      try {
         Observer.restart();
+      } catch (err) {
+        // Safe fallback if tailwindcss-intersect observer is uninitialized
+      }
     }, 100);
 
     return () => clearTimeout(timer);

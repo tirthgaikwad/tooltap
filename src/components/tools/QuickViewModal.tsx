@@ -23,6 +23,7 @@ import ToolLogo from './ToolLogo';
 import type { Tool } from '@/types/tool';
 import { useApp } from '@/contexts/AppContext';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
+import { getToolSlug } from '@/lib/slugs';
 import { cn } from '@/lib/utils';
 
 interface QuickViewModalProps {
@@ -55,7 +56,7 @@ export default function QuickViewModal({ tool, isOpen, onClose }: QuickViewModal
   const bookmarked = isBookmarked(tool.id);
   const inCompare = isInCompare(tool.id);
   const compareDisabled = !inCompare && compareList.length >= 3;
-  const toolSlug = tool.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  const toolSlug = getToolSlug(tool.name);
 
   const handleShare = async () => {
     const url = `${window.location.origin}/tools/${toolSlug}`;

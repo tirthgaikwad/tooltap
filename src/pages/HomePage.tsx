@@ -138,6 +138,18 @@ export default function HomePage() {
       <PageMeta
         title="ToolTap – Discover and Compare AI Tools"
         description="ToolTap helps students, creators, developers, and professionals discover, compare, and save the best AI tools for any task."
+        canonicalPath="/"
+        schema={{
+          '@context': 'https://schema.org',
+          '@type': 'WebSite',
+          name: 'ToolTap',
+          url: 'https://tooltap.vercel.app',
+          potentialAction: {
+            '@type': 'SearchAction',
+            target: 'https://tooltap.vercel.app/search?q={search_term_string}',
+            'query-input': 'required name=search_term_string',
+          },
+        }}
       />
       {/* SECTION 1: HERO SEARCH + TASK CHIPS + STUDENT MODE TOGGLE */}
       <section className="relative overflow-hidden py-12 sm:py-16 md:py-20 text-center rounded-3xl mb-12 bg-[#1E1E24]/90 card-gradient border border-white/[0.08] shadow-2xl w-full">

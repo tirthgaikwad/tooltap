@@ -127,6 +127,14 @@ export default function CategoryDetailPage() {
       <PageMeta
         title={`${category} AI Tools | ToolTap`}
         description={`Discover and compare top ${category} AI tools with free plan details and direct links.`}
+        canonicalPath={`/category/${normalizeSlug(category)}`}
+        schema={{
+          '@context': 'https://schema.org',
+          '@type': 'CollectionPage',
+          name: `${category} AI Tools`,
+          description: `Directory of top AI tools in ${category}.`,
+          about: category,
+        }}
       />
       <div className="py-6 sm:py-8 max-w-7xl mx-auto px-4 sm:px-6">
         {/* Breadcrumb */}

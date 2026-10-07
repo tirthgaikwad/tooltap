@@ -6,6 +6,7 @@ import {
   CheckCircle2, X, Sparkles, ShieldCheck, Zap
 } from 'lucide-react';
 import PageLayout from '@/components/layout/PageLayout';
+import PageMeta from '@/components/common/PageMeta';
 import ToolCard from '@/components/tools/ToolCard';
 import ToolLogo from '@/components/tools/ToolLogo';
 import AccessBadge from '@/components/tools/AccessBadge';
@@ -14,6 +15,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { useApp } from '@/contexts/AppContext';
 import { categoryToSlug } from '@/components/tools/CategoryCard';
 import { getFreePlanDetails } from '@/lib/freePlanUtils';
+import { matchSlug, getToolSlug } from '@/lib/slugs';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
@@ -31,10 +33,7 @@ export default function ToolDetailPage() {
   // Find the tool by slug (generated from name)
   const tool = useMemo(() => {
     if (!toolSlug) return null;
-    return tools.find(t => {
-      const slug = t.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-      return slug === toolSlug;
-    }) ?? null;
+    return tools.find(t => matchSlug(t.name, toolSlug)) ?? null;
   }, [tools, toolSlug]);
 
   const planDetails = useMemo(() => {
@@ -102,9 +101,30 @@ export default function ToolDetailPage() {
   }
 
   const isStudentFriendly = tool.access !== 'Paid';
+  const canonicalSlug = tool ? getToolSlug(tool.name) : (toolSlug || '');
 
   return (
     <PageLayout>
+      <PageMeta
+        title={`${tool.name} – ${tool.category} AI Tool Review & Pricing`}
+        description={`${tool.why} Learn about ${tool.name}'s free plan (${tool.freePlan}), features, and alternatives on ToolTap.`}
+        canonicalPath={`/tool/${canonicalSlug}`}
+        schema={{
+          '@context': 'https://schema.org',
+          '@type': 'SoftwareApplication',
+          name: tool.name,
+          applicationCategory: tool.category,
+          operatingSystem: 'Web',
+          description: tool.why,
+          url: tool.url,
+          offers: {
+            '@type': 'Offer',
+            price: tool.access === 'Free' || tool.access === 'Open Source' ? '0' : undefined,
+            priceCurrency: 'USD',
+            category: tool.access,
+          },
+        }}
+      />
       <TooltipProvider delayDuration={200}>
         <div className="py-6 sm:py-8 max-w-5xl mx-auto px-4 sm:px-6">
           {/* Breadcrumb */}
